@@ -15,14 +15,48 @@ interface LoadState {
   series: SeriesPayload | null;
   metrics: MetricsPayload | null;
   insights: InsightsPayload | null;
-  error: string | null;
+  notice: string | null;
 }
 
 const initialState: LoadState = {
   series: null,
   metrics: null,
   insights: null,
-  error: null
+  notice: null
+};
+
+const fallbackSeries: SeriesPayload = {
+  generatedAt: 'n/a',
+  series: [],
+  signals: []
+};
+
+const fallbackMetrics: MetricsPayload = {
+  generatedAt: 'n/a',
+  windowWeeks: 0,
+  categories: ['All'],
+  signalsUsed: [],
+  byCategory: [
+    {
+      category: 'All',
+      thresholds: {
+        varianceP25: null,
+        velocityP75: null
+      },
+      weekly: [],
+      correlationMatrices: []
+    }
+  ]
+};
+
+const fallbackInsights: InsightsPayload = {
+  generatedAt: 'n/a',
+  byCategory: [
+    {
+      category: 'All',
+      insights: []
+    }
+  ]
 };
 
 export default function DashboardClient() {
@@ -34,18 +68,43 @@ export default function DashboardClient() {
   useEffect(() => {
     const load = async () => {
       try {
+        const loadJson = async <T,>(path: string): Promise<T | null> => {
+          try {
+            return await fetchJson<T>(path);
+          } catch {
+            return null;
+          }
+        };
+
         const [series, metrics, insights] = await Promise.all([
-          fetchJson<SeriesPayload>('/data/series.json'),
-          fetchJson<MetricsPayload>('/data/metrics.json'),
-          fetchJson<InsightsPayload>('/data/insights.json')
+          loadJson<SeriesPayload>('/data/series.json'),
+          loadJson<MetricsPayload>('/data/metrics.json'),
+          loadJson<InsightsPayload>('/data/insights.json')
         ]);
-        setState({ series, metrics, insights, error: null });
-        if (metrics.categories.length > 0) {
-          setSelectedCategory(metrics.categories[0]);
+        const hasMissingData = !series || !metrics || !insights;
+        const resolvedSeries = series ?? fallbackSeries;
+        const resolvedMetrics = metrics ?? fallbackMetrics;
+        const resolvedInsights = insights ?? fallbackInsights;
+
+        setState({
+          series: resolvedSeries,
+          metrics: resolvedMetrics,
+          insights: resolvedInsights,
+          notice: hasMissingData
+            ? 'Some data files are missing. Showing placeholders until you regenerate data.'
+            : null
+        });
+        if (resolvedMetrics.categories.length > 0) {
+          setSelectedCategory(resolvedMetrics.categories[0]);
         }
       } catch (error) {
         const message = error instanceof Error ? error.message : 'Failed to load data.';
-        setState({ ...initialState, error: message });
+        setState({
+          series: fallbackSeries,
+          metrics: fallbackMetrics,
+          insights: fallbackInsights,
+          notice: `${message} Showing placeholders instead.`
+        });
       }
     };
 
@@ -81,14 +140,6 @@ export default function DashboardClient() {
     return match ?? categoryInsights.insights.at(-1) ?? null;
   }, [state.insights, selectedCategory, latestWeek]);
 
-  if (state.error) {
-    return (
-      <section className="glass-card rounded-2xl p-6 text-sm text-rose-200">
-        {state.error} Try running `npm run generate:data`.
-      </section>
-    );
-  }
-
   if (!state.metrics || !state.series || !state.insights) {
     return (
       <section className="glass-card rounded-2xl p-6 text-sm text-muted">
@@ -101,6 +152,11 @@ export default function DashboardClient() {
 
   return (
     <section className="flex flex-col gap-6">
+      {state.notice && (
+        <div className="glass-card rounded-2xl border border-amber-400/40 bg-amber-500/10 p-4 text-sm text-amber-100">
+          {state.notice} Run `npm run generate:data` to regenerate `/public/data`.
+        </div>
+      )}
       <Controls
         categories={categories}
         selectedCategory={selectedCategory}
