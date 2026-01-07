@@ -27,10 +27,10 @@ export default function Controls({
 }: ControlsProps) {
   return (
     <section className="glass-card flex flex-wrap items-center gap-5 rounded-2xl px-4 py-4 md:px-6 md:py-5">
-      <div className="flex min-w-[180px] flex-col gap-2">
-        <span className="text-[11px] uppercase tracking-[0.28em] text-muted">Category</span>
+      <div className="flex min-w-[180px] flex-col gap-1.5">
+        <span className="text-xs font-medium text-muted/80">Category</span>
         <select
-          className="rounded-xl border border-line/60 bg-canvas/50 px-3 py-2 text-sm text-white outline-none transition focus:border-transparent focus:ring-2 focus:ring-accent/40"
+          className="h-10 rounded-xl border border-line/60 bg-canvas/50 px-3 text-sm font-medium text-white outline-none transition focus:border-transparent focus:ring-2 focus:ring-accent/40"
           value={selectedCategory}
           onChange={(event) => onCategoryChange(event.target.value)}
         >
@@ -41,10 +41,10 @@ export default function Controls({
           ))}
         </select>
       </div>
-      <div className="flex min-w-[180px] flex-col gap-2">
-        <span className="text-[11px] uppercase tracking-[0.28em] text-muted">Time Range</span>
+      <div className="flex min-w-[180px] flex-col gap-1.5">
+        <span className="text-xs font-medium text-muted/80">Time Range</span>
         <select
-          className="rounded-xl border border-line/60 bg-canvas/50 px-3 py-2 text-sm text-white outline-none transition focus:border-transparent focus:ring-2 focus:ring-accent/40"
+          className="h-10 rounded-xl border border-line/60 bg-canvas/50 px-3 text-sm font-medium text-white outline-none transition focus:border-transparent focus:ring-2 focus:ring-accent/40"
           value={selectedRange}
           onChange={(event) => onRangeChange(Number(event.target.value))}
         >
@@ -55,7 +55,7 @@ export default function Controls({
           ))}
         </select>
       </div>
-      <div className="ml-auto flex items-center gap-3 rounded-xl border border-line/50 bg-canvas/40 px-3 py-2 text-xs text-muted">
+      <div className="ml-auto flex h-10 items-center gap-3 rounded-xl border border-line/50 bg-canvas/40 px-3 text-xs text-muted">
         <span className="whitespace-nowrap">Show synchronization events</span>
         <button
           type="button"
