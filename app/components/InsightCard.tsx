@@ -14,14 +14,14 @@ export default function InsightCard({ title, body, bullets, weekLabel }: Insight
     <section className="glass-card animate-fade-up flex flex-col gap-4 rounded-2xl p-5 md:p-6">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-muted">Interpretation</p>
+          <p className="text-[11px] uppercase tracking-[0.28em] text-muted">Interpretation</p>
           <h3 className="text-xl font-display font-semibold text-white">{title}</h3>
         </div>
-        <span className="rounded-full border border-line/60 px-3 py-1 text-xs text-muted">
+        <span className="rounded-full border border-line/60 bg-canvas/40 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-muted">
           Week of {weekLabel}
         </span>
       </div>
-      <div className="space-y-3 text-sm text-slate-200">
+      <div className="space-y-3 text-sm leading-relaxed text-slate-200">
         {paragraphs.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}
@@ -34,7 +34,7 @@ export default function InsightCard({ title, body, bullets, weekLabel }: Insight
           </li>
         ))}
       </ul>
-      <p className="text-xs text-muted">
+      <p className="text-[11px] uppercase tracking-[0.2em] text-muted">
         No prediction. Pattern-only. Correlation ≠ causation.
       </p>
     </section>

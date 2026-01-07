@@ -39,7 +39,7 @@ body {
 }
 
 .glass-card {
-  @apply bg-card/80 backdrop-blur border border-line/70 shadow-lg;
+  @apply bg-card/70 backdrop-blur border border-line/60 shadow-lg shadow-black/30;
 }
 
 .gradient-text {

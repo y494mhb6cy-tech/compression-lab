@@ -168,33 +168,33 @@ export default function DashboardClient() {
       />
 
       <section className="grid gap-4 md:grid-cols-4">
-        <div className="glass-card rounded-2xl p-4">
-          <p className="text-xs uppercase tracking-[0.3em] text-muted">Variance Index</p>
-          <p className="mt-2 text-2xl font-display text-white">
+        <div className="glass-card flex flex-col gap-2 rounded-2xl p-4 md:p-5">
+          <p className="text-[11px] uppercase tracking-[0.28em] text-muted">Variance Index</p>
+          <p className="text-2xl font-display font-semibold text-white">
             {round(latestMetrics?.varianceIndex, 2)}
           </p>
-          <p className="text-xs text-muted">Compression if trending downward.</p>
+          <p className="text-xs leading-relaxed text-muted">Compression if trending downward.</p>
         </div>
-        <div className="glass-card rounded-2xl p-4">
-          <p className="text-xs uppercase tracking-[0.3em] text-muted">Avg Abs Corr</p>
-          <p className="mt-2 text-2xl font-display text-white">
+        <div className="glass-card flex flex-col gap-2 rounded-2xl p-4 md:p-5">
+          <p className="text-[11px] uppercase tracking-[0.28em] text-muted">Avg Abs Corr</p>
+          <p className="text-2xl font-display font-semibold text-white">
             {round(latestMetrics?.avgAbsCorrelation, 2)}
           </p>
-          <p className="text-xs text-muted">Higher means signals move together.</p>
+          <p className="text-xs leading-relaxed text-muted">Higher means signals move together.</p>
         </div>
-        <div className="glass-card rounded-2xl p-4">
-          <p className="text-xs uppercase tracking-[0.3em] text-muted">Correlation Velocity</p>
-          <p className="mt-2 text-2xl font-display text-white">
+        <div className="glass-card flex flex-col gap-2 rounded-2xl p-4 md:p-5">
+          <p className="text-[11px] uppercase tracking-[0.28em] text-muted">Correlation Velocity</p>
+          <p className="text-2xl font-display font-semibold text-white">
             {round(latestMetrics?.correlationVelocity, 2)}
           </p>
-          <p className="text-xs text-muted">Positive = strengthening alignment.</p>
+          <p className="text-xs leading-relaxed text-muted">Positive = strengthening alignment.</p>
         </div>
-        <div className="glass-card rounded-2xl p-4">
-          <p className="text-xs uppercase tracking-[0.3em] text-muted">Cluster Stability</p>
-          <p className="mt-2 text-2xl font-display text-white">
+        <div className="glass-card flex flex-col gap-2 rounded-2xl p-4 md:p-5">
+          <p className="text-[11px] uppercase tracking-[0.28em] text-muted">Cluster Stability</p>
+          <p className="text-2xl font-display font-semibold text-white">
             {round(latestMetrics?.clusterStability, 2)}
           </p>
-          <p className="text-xs text-muted">Share of signals staying in clusters.</p>
+          <p className="text-xs leading-relaxed text-muted">Share of signals staying in clusters.</p>
         </div>
       </section>
 
