@@ -30,26 +30,35 @@ const Heatmap = memo(function Heatmap({ signals, matrix }: HeatmapProps) {
   }
 
   const size = signals.length;
-  const columns = `120px repeat(${size}, minmax(48px, 1fr))`;
+  const columns = `minmax(120px, 1.2fr) repeat(${size}, minmax(44px, 1fr))`;
 
   return (
-    <div className="h-full overflow-auto">
-      <div className="grid gap-2" style={{ gridTemplateColumns: columns }}>
+    <div className="h-full w-full overflow-hidden">
+      <div className="grid min-w-0 w-full gap-2" style={{ gridTemplateColumns: columns }}>
         <div />
         {signals.map((signal) => (
-          <div key={signal} className="text-xs uppercase tracking-[0.2em] text-muted">
+          <div
+            key={signal}
+            className="px-1 text-center text-[11px] font-medium leading-snug text-muted/80 break-words"
+            title={formatSignal(signal)}
+          >
             {formatSignal(signal)}
           </div>
         ))}
         {signals.map((rowSignal, rowIndex) => (
           <div key={rowSignal} className="contents">
-            <div className="text-xs font-semibold text-slate-100">{formatSignal(rowSignal)}</div>
+            <div
+              className="pr-2 text-xs font-semibold leading-snug text-slate-100 break-words"
+              title={formatSignal(rowSignal)}
+            >
+              {formatSignal(rowSignal)}
+            </div>
             {signals.map((columnSignal, columnIndex) => {
               const value = matrix[rowIndex]?.[columnIndex] ?? 0;
               return (
                 <div
                   key={`${rowSignal}-${columnSignal}`}
-                  className="flex h-9 items-center justify-center rounded-lg border border-line/60 text-xs text-slate-100"
+                  className="flex h-9 items-center justify-center rounded-lg border border-line/60 text-xs font-medium text-slate-100"
                   style={{ backgroundColor: colorForCorrelation(value) }}
                   title={`${formatSignal(rowSignal)} x ${formatSignal(columnSignal)}: ${value.toFixed(2)}`}
                 >
